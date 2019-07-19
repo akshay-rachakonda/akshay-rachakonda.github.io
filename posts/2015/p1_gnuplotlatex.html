@@ -1,0 +1,109 @@
+<head>
+<link rel="stylesheet" href="../../mystyle.css">
+<base target="_blank">
+</head>
+<center><font size="6">Sarath Babu</font></center>
+<div class="headlink">
+<a href="../../index.html" target="_self">Home</a>
+<a href="../../bio.html" target="_self">Bio</a>
+<a href="../../research.html" target="_self">Research</a>
+<a href="../../publications.html" target="_self">Publications</a>
+<a href="../../activities.html" target="_self">Activities</a>
+<a href="../../articles.html" target="_self">Articles</a>
+<a href="../../interests.html" target="_self">Interests</a>
+</div>
+<hr size="2" color="#003380"><h3><center>Gnuplot + LaTeX:&nbsp; The Ultimate Plotting Experience</center></h3>
+
+<p><img src="figures/p1_graph_icon.png" hspace="20" style="float:left">
+Plotting graphs is an important activity for most of our analysis
+work. Usually we have a function, say <em>y = f(x)</em> , and a sample of
+<em>(x,y)</em> pairs. In order to analyze the behavior of the function, we
+represent the <em>x</em> and its corresponding <em>y</em> values as a graph. We draw
+a horizontal <em>x</em>-axis and a vertical <em>y</em>-axis. In the graph, we
+represent each <em>(x,y)</em> pair as a dot or a cross in the <em>x-y</em>
+plane. Instead of points, we can connect the points with lines or can
+draw vertical bars (histograms) corresponding to each <em>y</em> value to get
+more meaningful interpretation of the function. This post is intended
+to provide information on generating extreme quality graphs using two
+of the important tools, <strong>Gnuplot</strong> and <strong>LaTeX</strong>.</p>
+
+<p>For the remaining of this post, I assume that you have a basic
+knowledge of Gnuplot and LaTeX. For plotting using this method, we
+need to have <strong>TikZ</strong> and <strong>LuaTeX</strong> libraries installed. Use the
+following command (in GNU Debian/Ubuntu systems) if your system does
+not have them.</p>
+
+<p>$ <font color="#003380">sudo apt-get install gnuplot latexmk pgf
+preview-latex* texlive-fonts-recommended luatex texlive-pictures
+texlive-latex-extra</font></p>
+
+<p>Assume that we have a text file <em>data.txt</em> with input data (the
+<em>(x,y)</em> pairs) for plotting. For example, you have the speed of a car
+and a bus at certain time instants. A sample file is as follows.</p>
+
+<hr />
+
+<p><strong>Time Car Bus</strong> <br />
+1 10 35 <br />
+2 45 20 <br />
+3 30 40 <br />
+4 25 10 <br />
+5 60 55<br></p>
+
+<hr />
+
+<p>As the next step, write the Gnuplot script for plotting the graph.
+The following is a sample code, saved as <em>plot.gp</em>.  </p>
+
+<hr />
+
+<p><span style="color:#808080;"># Enabling the terminal in LaTeX TikZ mode</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;">term</span>
+<span style="color:#000000;">tikz standalone color solid</span><br>
+<span style="color:#808080;"># Enabling the dashed line option</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;">termoption</span> <span style="color:#000000;">dash</span><br>
+<span style="color:#808080;"># Setting output file  name</span> <span style="color:#808080;">(Here output is a LaTeX file)</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;"> output</span> <span style="color:#333399;">'figure.tex'</span><br>
+<span style="color:#808080;"># Set title</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;">title</span>
+<span style="color:#333399;">'Speed Vs Time'</span><br>
+<span style="color:#808080;"># Set labels for x and y axes</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;">xlabel</span>
+<span style="color:#333399;">'Time (in minutes)'</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;">ylabel</span> <span style="color:#333399;">'Speed (km/hr)'</span><br>
+<span style="color:#808080;"># Set the legend</span><br>
+<span style="color:#000000;">set</span> <span style="color:#008000;">key</span> <span style="color:#000000;">horiz top left Left box spacing 2 sample 2</span><br>
+<span style="color:#808080;"># Plot the graph</span><br>
+<span style="color:#000000;">plot</span> <span style="color:#ff9900;">'data.txt'</span>
+<span style="color:#000000;">u</span> <span style="color:#333399;">1:2</span>
+<span style="color:#000000;">w lp lt 1 pt 5 lc rgb 'dark-blue' t columnheader,\ <br>
+<span style="color:#000000;">'data.txt' u 1:3 w lp lt 2 pt 7 lc rgb 'dark-green' t columnheader</span><br></p>
+
+<hr />
+
+<p>Execute the Gnuplot code <em>plot.gp</em> using the following command.</p>
+
+<p>$ <font color="#003380">gnuplot plot.gp</font></p>
+
+<p>Execution creates a file <em>figure.tex</em> with the TikZ script for drawing
+the graph. TikZ is used to draw high quality figures in LaTeX (See <a
+href="http://www.texample.net" target="_blank">TeXample</a>). Thanks
+to Gnuplot's support for TikZ terminal, which allows us to generate a
+<em>tex</em> file, with scripts to draw the graph, instead of normal image
+formats such as <em>jpeg</em> or <em>png</em>. As the final step, we need to compile
+the file <em>figure.tex</em> with <em>pdflatex</em>.</p>
+
+<p>$ <font color="#003380">pdflatex figure.tex</font></p>
+
+<p>A file <a href="figures/p1_figure.pdf"
+target="_blank"><em>figure.pdf</em></a> will be generated with the
+graph. There hardly exist tools to create graphs of higher quality
+similar to Gnuplot + LaTeX. Since the graph is created using LaTeX,
+the default font will be the same as the default font provided by
+LaTeX. Also, LaTeX allows to import figures with <em>.pdf</em> extension
+using <em>\includegraphics{}</em> command. Presence of such figures improves
+the effective quality of technical papers.</p>
+
+<p><br>-----------------------<br>
+Send me suggestions or corrections if any.</p>
+<center>&#9643;&emsp;&#9643;&emsp;&#9643;&emsp;&#9643;</center>
